@@ -1,5 +1,6 @@
 import os 
 import sys
+import pickle
 
 import numpy as np
 import pandas as pd
@@ -16,7 +17,7 @@ def save_object(file_path, obj):
         os.makedirs(dir_path,exist_ok =True)
         
         with open(file_path,"wb") as file_obj:
-            dill.dump(obj,file_obj)
+            pickle.dump(obj,file_obj)
 
     except Exception as e:
         raise CustomException(e,sys)
@@ -24,6 +25,7 @@ def save_object(file_path, obj):
 def evaluate_models(X_train,y_train,X_test,y_test,models,param):
     try:
         report = {}
+        
         for i in range(len(list(models))):
             model =list(models.values())[i]
             para = param[list(models.keys())[i]]
@@ -49,6 +51,13 @@ def evaluate_models(X_train,y_train,X_test,y_test,models,param):
         
     except Exception as e:
         raise CustomException(e,sys)
-        
+ 
+def load_object(file_path):
+    try:
+        with open(file_path,"rb") as file_obj:
+            return pickle.load(file_obj)
+    except Exception as e:
+        raise CustomException(e,sys)
+               
 
  
